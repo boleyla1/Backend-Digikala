@@ -1,0 +1,24 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+{#    {% include 'shop/navbar.html' %}#}
+	 <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">ثبت نام کنید</h1>
+                    <a style="text-decoration: none" href="{% url 'login' %}"> <p class="lead fw-normal text-white-50 mb-0">ورود به ناحیه کاربری</p></a>
+                </div>
+            </div>
+        </header>
+    <br><br>
+    <div class="container">
+    <div class="row">
+<form method="post" action="{% url 'register' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+<br><br>
+  <button type="submit" class="btn btn-primary">ثبت نام</button>
+    <br><Br>
+</form>
+    </div>
+    </div>
+{% endblock %}

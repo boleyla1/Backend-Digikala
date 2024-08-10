@@ -1,0 +1,116 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Navigation-->
+{#        {% include 'shop/navbar.html' %}#}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">سبد خرید</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                </div>
+            </div>
+        </header>
+    <br><br>
+   {% if cartproducts %}
+   	 {% for cartproduct in cartproducts %}
+<div class="card mb-3" style="direction: rtl;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{ cartproduct.Pictur.url }}" class="img-fluid rounded-start" alt="...">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ cartproduct.Name }}</h5>
+        <p class="card-text">{{ cartproduct.discription }}.</p>
+          {% if product.Offer %}
+          	<p class="card-text">قیمت : {{ cartproduct.OfferPrice }} - <strike>{{ cartproduct.Price }}</strike></p>
+              {% else %}
+              <p class="card-text">{{ cartproduct.Price }}.</p>
+              
+          {% endif %}
+          <p class="card-text">
+          تعداد:
+              <select class="form-select" id="select{{ cartproduct.id }}">
+                            {% for key,value in quantitys.items %}
+          	{% if key == cartproduct.id|slugify %}
+          		<option  selected>{{ value }}</option>
+          	{% endif %} 
+          {% endfor %}
+         <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+                </select>
+
+      </p>
+     
+        <p class="card-text"><small class="text-body-secondary"></small></p>
+      </div>
+     <button type="button" data-index="{{ cartproduct.id }}" class="btn btn-success" id="update-cart">ویرایش</button>
+      <button type="button" data-index="{{ cartproduct.id }}" class="btn btn-danger" id="delete-product">حذف</button>
+    <a class="btn btn-primary" style="text-decoration: none" href="{% url 'shop' %}">یازگشت به صفحه قبلی</a>
+  <div class="d-flex justify-content-center small text-warning mb-2 ">
+       {% with ''|center:cartproduct.Star as range%}
+           {% for _ in range%}
+               <div style="position: relative;right: 143px" class=" bi-star-fill"></div>
+           {% endfor %}
+{% endwith %}
+</div>
+    <br><br>
+    </div>
+  </div>
+</div>
+    {% endfor %}
+       <h1 style="direction: rtl;font-size: 18px;text-align: center;">محموع کل سفارشات :{{ total }}تومان</h1>
+       {% else %}
+       <p>nooooooo</p>
+   {% endif %} 
+           <br><br><br><br>
+    <script>
+        $(document).on('click','#update-cart',function(e){
+      e.preventDefault();
+      var Productid = $(this).data('index')
+      $.ajax({
+          type :'POST',
+          url  : '{% url 'Cartupdate' %}',
+          data:{
+              Product_id : $(this).data('index'),
+              product_qty : $('#select'+ Productid +' option:selected').text(),
+              csrfmiddlewaretoken : '{{ csrf_token }}',
+              action : 'post',
+          },
+          success: function (json){
+              {#console.log(json)#}
+              {#document.getElementById('cart_len').textContent = json.cart_len#}
+              location.reload();
+          },
+          error: function (xhr,errmsg,err){
+              
+          }
+      })
+    })
+     $(document).on('click','#delete-product',function(e){
+      e.preventDefault();
+      $.ajax({
+          type :'POST',
+          url  : '{% url 'Cartdelete' %}',
+          data:{
+              Product_id : $(this).data('index'),
+              csrfmiddlewaretoken : '{{ csrf_token }}',
+              action : 'post',
+          },
+          success: function (json){
+              {#console.log(json)#}
+              {#document.getElementById('cart_len').textContent = json.cart_len#}
+              location.reload();
+          },
+          error: function (xhr,errmsg,err){
+              
+          }
+      })
+    })    
+    </script>
+        <!-- Section-->
+{% endblock %}

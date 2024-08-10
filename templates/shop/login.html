@@ -1,0 +1,29 @@
+{% extends 'shop/base.html' %}
+{% block content %}
+{#    {% include 'shop/navbar.html' %}#}
+	 <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">وارد شوید</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">ورود به ناحیه کاربری</p>
+                </div>
+            </div>
+        </header>
+    <br><br>
+    <div class="container">
+    <div class="row">
+<form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+
+  <div class="mb-3">
+    <input type="text" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="نام کاربری وارد کنید">
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <div class="mb-3">
+    <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="رمز خود را وارد کنید">
+  </div>
+  <button type="submit" class="btn btn-primary">ورود</button>
+</form>
+    </div>
+    </div>
+{% endblock %}

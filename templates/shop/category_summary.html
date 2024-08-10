@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>{% extends 'shop/base.html' %}
+{% load static %}
+{% block content %}
+<!-- Navigation-->
+{#        {% include 'shop/navbar.html' %}#}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">{{ category }}ها</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                </div>
+            </div>
+        </header>
+        <!-- Section-->
+
+{% for cat in allcat %}
+	<div class="card" style="width: 18rem;float: right;position: relative;direction: rtl;">
+  <img src="{{ cat.Image.url }}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title text-center">{{ cat.Name }}</h5>
+      <br>
+    <a href="{% url 'category' cat.Name %}" class="btn btn-primary">ورود به دسته بندی</a>
+  </div>
+</div>
+{% endfor %}
+
+    <br><br><br><br><br><br><br><br>    <br><br><br><br><br><br><br><br>
+        <br><br><br><br><br><br><br><br>    <br><br><br><br><br><br><br><br>
+     <br><br><br><br><br><br><br><br>
+
+{% endblock %}
